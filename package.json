@@ -27,7 +27,7 @@
     "validate": "npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
-    "wstudio-api": "file:../wstudio-api",
+    "wstudio-api": "github:arebelamazuera/wstudio-api#main",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

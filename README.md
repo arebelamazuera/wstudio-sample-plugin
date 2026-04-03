@@ -1,36 +1,51 @@
-# wstudio-sample-plugin
+# WStudio Sample Plugin
 
-Minimal React-ready third-party plugin starter for WStudio.
+This is a sample plugin for WStudio.
 
-This package keeps the five sample features while staying small enough to copy
-and customize for real plugin development.
+It uses TypeScript for type checking, `wstudio-api` for the public plugin API
+surface, and includes React-ready tooling so you can build plugin UI without
+adding extra setup first.
 
-## Project Shape
+This sample demonstrates a small but practical set of plugin features:
 
-- `src/main.ts`: plugin entry
-- `src/settings.ts`: plugin settings tab
+- Adds a ribbon icon that shows a notice when clicked
+- Adds a command `Open Simple Modal`
+- Adds a plugin setting tab
+- Registers a global click event and logs `click`
+- Registers a global interval and logs `setInterval`
+- Renders modal content with React to show built-in TSX support
+
+## First Time Developing WStudio Plugins?
+
+Quick start for new plugin developers:
+
+- Clone this repository to your development machine
+- Install Node.js 20 or newer
+- Run `npm install`
+- Run `npm run dev` to build in watch mode
+- Make changes in `src/main.ts`, `src/settings.ts`, or `src/styles.scss`
+- Reload WStudio after rebuilding the plugin
+- Enable the plugin in WStudio after it is discovered
+
+The project already includes:
+
+- TypeScript configuration
+- React + TSX support
+- SCSS compilation
+- ESLint configuration
+- A minimal manifest and starter file layout
+
+## Project Structure
+
+- `manifest.json`: plugin metadata used by the WStudio host
+- `src/main.ts`: main plugin entry
+- `src/settings.ts`: sample settings tab
 - `src/styles.scss`: plugin styles source
-- `manifest.json`: plugin metadata consumed by the host
-- `esbuild.config.mjs`: bundle and style build pipeline
-- `eslint.config.mjs`: starter lint rules
+- `esbuild.config.mjs`: build pipeline for `main.js` and `styles.css`
+- `eslint.config.mjs`: lint configuration
+- `tsconfig.json`: TypeScript configuration
 
-## What It Exercises
-
-- plugin discovery via `manifest.json`
-- plugin entry loading via bundled `main.js`
-- lifecycle `onload` / `onEnable` / `onDisable` / `onunload` / `onFailed`
-- built-in React + TSX starter support
-- ReactDOM mounting inside the plugin host
-- ribbon icon registration with a notice callback
-- command registration through `Open Simple Modal`
-- React-powered modal creation and display
-- plugin data persistence through a settings text field
-- setting tab registration with interactive controls
-- global DOM event registration through `registerDomEvent(document, 'click', ...)`
-- global interval cleanup through `registerInterval(setInterval(...))`
-- plugin stylesheet generation through `src/styles.scss -> styles.css`
-
-## Commands
+## Development
 
 Install dependencies:
 
@@ -38,19 +53,19 @@ Install dependencies:
 npm install
 ```
 
-Lint the project:
+Start watch mode:
 
 ```bash
-npm run lint
+npm run dev
 ```
 
-Build the sample plugin package:
+Build the plugin once:
 
 ```bash
 npm run build
 ```
 
-Type-check the sample plugin package:
+Type-check the project:
 
 ```bash
 npm run typecheck
@@ -62,42 +77,61 @@ Run the complete local validation:
 npm run validate
 ```
 
-## Runtime Outputs
+## How It Works
+
+This sample keeps `wstudio-api` external during bundling. The API package is
+provided by the WStudio host at runtime, while `react` and `react-dom` are
+bundled into the plugin output.
+
+Build output files:
 
 - `main.js`
 - `main.js.map`
 - `styles.css`
 
-## Dependency
+## Running It In WStudio
 
-By default this sample uses a local sibling dependency:
+WStudio scans plugin folders under its user-data `plugins/` directory by
+default. Each plugin should live in its own folder named after the plugin id or
+another stable directory name, for example:
 
-```bash
-wstudio-api = file:../wstudio-api
+```text
+plugins/
+  wstudio-plugin-sample/
+    manifest.json
+    main.js
+    styles.css
 ```
 
-After `wstudio-api` is published, replace it with your public install source, for example:
+To load this sample manually:
+
+1. Clone or copy this repository into a folder for the plugin
+2. Run `npm install`
+3. Run `npm run build` or `npm run dev`
+4. Make sure the folder contains `manifest.json`, `main.js`, and `styles.css`
+5. Start or reload WStudio so it rescans plugins
+
+For development builds, WStudio can also read additional plugin roots from the
+`WSTUDIO_PLUGIN_ROOTS` environment variable.
+
+## API Dependency
+
+This sample depends on the public `wstudio-api` repository:
 
 ```json
 {
   "dependencies": {
-    "wstudio-api": "github:YOUR_GITHUB_OWNER/wstudio-api#main"
+    "wstudio-api": "github:arebelamazuera/wstudio-api#main"
   }
 }
 ```
 
-## Portability
+If you publish `wstudio-api` to a package registry later, you can replace that
+dependency with a normal semver package version.
 
-You can run:
+## Notes
 
-```bash
-npm install
-npm run typecheck
-npm run build
-```
-
-The build will work because:
-
-- `wstudio-api` stays external in the bundle and is provided by the WStudio host at runtime
-- `react` and `react-dom` are bundled into the plugin output, so the host does not need to provide them
-- the installed `wstudio-api` package contains the TypeScript declarations used by the editor
+- `manifest.json` is required for plugin discovery
+- `main.js` is the plugin entry file loaded by the host
+- `styles.css` is optional in general, but included by this sample
+- The settings tab persists the sample notice message through the plugin data store
