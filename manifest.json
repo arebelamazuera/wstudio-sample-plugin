@@ -4,6 +4,7 @@
   "author": "WiseAI Team",
   "version": "1.0.0",
   "description": "Minimal React-ready third-party plugin starter for WStudio",
+  "fundingUrl": "https://github.com/sponsors/arebelamazuera",
   "engines": {
     "wstudio": "^1.0.0",
     "pluginApi": "^1.0.0"
