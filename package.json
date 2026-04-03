@@ -1,0 +1,46 @@
+{
+  "name": "wstudio-sample-plugin",
+  "version": "1.0.0",
+  "description": "Minimal React-ready third-party plugin starter for WStudio",
+  "author": "WiseAI Team",
+  "license": "MIT",
+  "packageManager": "npm@11.6.2",
+  "main": "./main.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "wstudio",
+    "plugin",
+    "sample",
+    "starter",
+    "react"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "build": "node esbuild.config.mjs",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "dev": "node esbuild.config.mjs --watch",
+    "clean": "node -e \"const fs=require('node:fs');['main.js','main.js.map','styles.css'].forEach((file)=>fs.rmSync(file,{force:true}))\"",
+    "validate": "npm run lint && npm run typecheck && npm run build"
+  },
+  "dependencies": {
+    "wstudio-api": "file:../wstudio-api",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^9.36.0",
+    "esbuild": "^0.25.0",
+    "globals": "^16.4.0",
+    "sass-embedded": "^1.93.2",
+    "typescript-eslint": "^8.44.0",
+    "typescript": "^5.0.0"
+  }
+}
